@@ -29,19 +29,6 @@ class Dumpling{
         this.amount = amount;
     }
 
-    public synchronized void total(){
-        if((pork <= 0) && (beef <= 0) && (vegetable <= 0)){
-            System.out.println("所有水餃都售出完畢");
-            System.exit(0);
-        }
-        
-        System.out.println("-------剩餘總計-------");
-        System.out.println("豬肉水餃剩餘" + pork + "份");
-        System.out.println("牛肉水餃剩餘" + beef + "份");
-        System.out.println("蔬菜水餃剩餘"+ vegetable + "份");
-        System.out.println("----------------------");
-    }
-
     public void order(){
         if(this.type == 1){
             if(this.amount > pork){
@@ -66,6 +53,18 @@ class Dumpling{
             }
         }
     }
+    
+    public int getPorkDumpling(){
+        return pork;
+    }
+
+    public int getBeefDumpling(){
+        return beef;
+    }
+
+    public int getVegetableDumpling(){
+        return vegetable;
+    }
 }
 
 public class A1103323_0519_1{
@@ -73,6 +72,10 @@ public class A1103323_0519_1{
         Scanner input = new Scanner(System.in);
         System.out.printf("請輸入顧客數目：");
         int num = input.nextInt();
+
+        int pork = 0;
+        int beef = 0;
+        int vegetable = 0;
         
         for(int i = 1;i <= num;i++){
             Random random = new Random();
@@ -84,8 +87,22 @@ public class A1103323_0519_1{
 
                 Dumpling dumpling = new Dumpling(i, type, amount);
                 dumpling.order();
-                dumpling.total();
+
+                pork = dumpling.getPorkDumpling();
+                beef = dumpling.getBeefDumpling();
+                vegetable = dumpling.getVegetableDumpling();
             }
+            System.out.println("-------剩餘總計-------");
+            if((pork <= 0) && (beef <= 0) && (vegetable <= 0)){
+                System.out.println("所有水餃都售出完畢");
+                System.exit(0);
+            } else {
+                System.out.println("豬肉水餃剩餘" + pork + "份");
+                System.out.println("牛肉水餃剩餘" + beef + "份");
+                System.out.println("蔬菜水餃剩餘"+ vegetable + "份");
+                System.out.println("----------------------");
+            }
+
             TimerThread time = new TimerThread(i);
             time.run();
         }
